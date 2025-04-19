@@ -21,6 +21,7 @@ export function ContentLocker({ onComplete }: ContentLockerProps) {
 
   useEffect(() => {
     const checkLeads = () => {
+ HEAD
       // Create a unique callback name
       const callbackName = `jsonp_callback_${Date.now()}`;
 
@@ -48,6 +49,19 @@ export function ContentLocker({ onComplete }: ContentLockerProps) {
 
       // Append script to document
       document.body.appendChild(script);
+
+      fetch(`https://drqp033qnd79l.cloudfront.net/public/external/check2.php?testing=0&callback=?`)
+        .then(res => res.json())
+        .then(leads => {
+          if (leads.length > 0) {
+            setCompleted(true);
+            onComplete();
+          }
+        })
+        .catch(error => {
+          console.error('Error checking leads:', error);
+        });
+ af2a2d5c32c103c9d673c68b4adff8123077c645
     };
 
     const interval = setInterval(checkLeads, 15000);
@@ -55,6 +69,7 @@ export function ContentLocker({ onComplete }: ContentLockerProps) {
   }, [onComplete]);
 
   useEffect(() => {
+ HEAD
     // Create a unique callback name
     const callbackName = `jsonp_callback_${Date.now()}`;
 
@@ -91,6 +106,18 @@ export function ContentLocker({ onComplete }: ContentLockerProps) {
         script.parentNode.removeChild(script);
       }
     };
+
+    fetch(`https://drqp033qnd79l.cloudfront.net/public/offers/feed.php?user_id=534684&api_key=bfa0217506b2b6f8fe32281179cafdf5&s1=&s2=&callback=?`)
+      .then(res => res.json())
+      .then(data => {
+        setOffers(data.slice(0, numOffers));
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching offers:', error);
+        setLoading(false);
+      });
+ af2a2d5c32c103c9d673c68b4adff8123077c645
   }, [numOffers]);
 
   if (completed) return null;
@@ -132,6 +159,13 @@ export function ContentLocker({ onComplete }: ContentLockerProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 rounded-lg border border-gray-200 bg-white p-4 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+ HEAD
+
+                onClick={() => {
+                  // Track offer click if needed
+                  console.log(`Offer clicked: ${offer.conversion}`);
+                }}
+ af2a2d5c32c103c9d673c68b4adff8123077c645
               >
                 <Lock className="h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400" />
                 <span className="text-sm text-gray-700 dark:text-gray-300">{offer.anchor}</span>
